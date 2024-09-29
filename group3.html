@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分组1 - 照片与视频展示</title>
+    <style>
+        body {
+            background-color: #fff3e6;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #5a3e36;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            /* 允许换行 */
+            justify-content: center;
+            /* 水平居中 */
+            gap: 20px;
+            /* 增加间距 */
+        }
+
+        .item {
+            flex: 0 1 calc(50% - 20px);
+            /* 每个箱子占据一半宽度，减去间距 */
+            max-width: 600px;
+            /* 最大宽度 */
+        }
+
+
+
+        .item:hover {
+            transform: scale(1.05);
+            /* 悬停时放大 */
+        }
+
+        img,
+        video {
+            width: 100%;
+            height: auto;
+            /* 自适应高度 */
+            object-fit: cover;
+            /* 保持图片比例 */
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>洁哥</h1>
+    <div class="gallery" id="gallery1"></div>
+
+    <script>
+        const mediaItems = [
+            { type: 'image', src: '洁哥/洁哥1.jpg' },
+            { type: 'image', src: '洁哥/洁哥2.jpg' },
+            { type: 'image', src: '洁哥/洁哥3.jpg' },
+            { type: 'image', src: '洁哥/洁哥4.jpg' },
+            { type: 'image', src: '洁哥/洁哥5.jpg' },
+            { type: 'image', src: '洁哥/洁哥6.jpg' },
+            { type: 'image', src: '洁哥/洁哥7.jpg' },
+            { type: 'image', src: '洁哥/洁哥8.jpg' },
+            { type: 'image', src: '洁哥/洁哥9.jpg' },
+            { type: 'image', src: '洁哥/洁哥10.jpg' },
+            { type: 'image', src: '洁哥/洁哥11.jpg' },
+            { type: 'image', src: '洁哥/洁哥12.jpg' },
+            { type: 'image', src: '洁哥/洁哥13.jpg' },
+            { type: 'image', src: '洁哥/洁哥14.jpg' },
+            { type: 'image', src: '洁哥/洁哥15.jpg' },
+            { type: 'image', src: '洁哥/洁哥16.jpg' },
+            { type: 'video', src: '洁哥/洁哥1.mp4' },
+            { type: 'video', src: '洁哥/洁哥2.mp4' },
+            { type: 'video', src: '洁哥/洁哥3.mp4' },
+            { type: 'video', src: '洁哥/洁哥4.mp4' },
+            { type: 'video', src: '洁哥/洁哥5.mp4' },
+            { type: 'video', src: '洁哥/洁哥6.mp4' },
+            { type: 'video', src: '洁哥/洁哥7.mp4' },
+            { type: 'video', src: '洁哥/洁哥8.mp4' },
+            { type: 'video', src: '洁哥/洁哥9.mp4' },
+            { type: 'video', src: '洁哥/洁哥10.mp4' },
+            // 添加更多照片和视频链接
+        ];
+
+        const gallery = document.getElementById('gallery1');
+
+        mediaItems.forEach(item => {
+            const div = document.createElement('div');
+            div.classList.add('item');
+
+            if (item.type === 'image') {
+                const img = document.createElement('img');
+                img.src = item.src;
+                div.appendChild(img);
+            } else if (item.type === 'video') {
+                const video = document.createElement('video');
+                video.src = item.src;
+                video.controls = true;
+                div.appendChild(video);
+            }
+
+            gallery.appendChild(div);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>照片与视频展示</title>
+    <style>
+        body {
+            background-color: #ffe7d1;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .group {
+            background-color: #ffe7d1;
+            /* 与背景一致 */
+            border: 2px solid #ffe7d1;
+            /* 边界框颜色 */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            flex: 0 1 calc(50% - 20px);
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s;
+            /* 添加过渡效果 */
+        }
+
+        .group-title {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .cover {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .cover a {
+            display: block;
+            width: 100%;
+        }
+
+        .cover img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.3s;
+            /* 添加过渡效果 */
+        }
+
+        .group:hover {
+            transform: scale(1.05);
+            /* 鼠标悬停时稍微放大 */
+        }
+
+        .cover:hover img {
+            transform: scale(1.05);
+            /* 鼠标悬停时稍微放大 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>我的照片与视频</h1>
+
+    <div class="container">
+        <div class="group">
+            <div class="cover">
+                <a href="group1.html" target="_blank" onclick="saveCurrentPage()"><img src="dys/dys1.jpg" alt="dys"></a>
+            </div>
+            <div class="group-title">dys</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group2.html" target="_blank" onclick="saveCurrentPage()"><img src="力元/力元1.jpg" alt="力元"></a>
+            </div>
+            <div class="group-title">力元</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group3.html" target="_blank" onclick="saveCurrentPage()"><img src="洁哥/洁哥1.jpg" alt="洁哥"></a>
+            </div>
+            <div class="group-title">洁哥</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group4.html" target="_blank" onclick="saveCurrentPage()"><img src="嘎达/嘎达1.jpg" alt="嘎达"></a>
+            </div>
+            <div class="group-title">嘎达</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group5.html" target="_blank" onclick="saveCurrentPage()"><img src="精子/精子1.jpg" alt="精子"></a>
+            </div>
+            <div class="group-title">精子</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group6.html" target="_blank" onclick="saveCurrentPage()"><img src="浩男/浩男1.jpg" alt="浩男"></a>
+            </div>
+            <div class="group-title">浩男</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group7.html" target="_blank" onclick="saveCurrentPage()"><img src="大旭孙/大旭孙.jpg" alt="大旭孙"></a>
+            </div>
+            <div class="group-title">大旭孙</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group8.html" target="_blank" onclick="saveCurrentPage()"><img src="喝酒/喝酒1.jpg" alt="喝酒"></a>
+            </div>
+            <div class="group-title">喝酒</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group9.html" target="_blank" onclick="saveCurrentPage()"><img src="玩耍/玩耍1.jpg" alt="玩"></a>
+            </div>
+            <div class="group-title">玩</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group10.html" target="_blank" onclick="saveCurrentPage()"><img src="硕子/硕子1.jpg" alt="硕子"></a>
+            </div>
+            <div class="group-title">硕子</div>
+        </div>
+
+        <div class="group">
+            <div class="cover">
+                <a href="group11.html" target="_blank" onclick="saveCurrentPage()"><img src="合照/合照1.jpg" alt="合照"></a>
+            </div>
+            <div class="group-title">合照</div>
+        </div>
+    </div>
+
+    <script>
+        function saveCurrentPage() {
+            const currentUrl = window.location.href;
+            localStorage.setItem('savedPage', currentUrl);
+        }
+    </script>
+
+</body>
+
+</html>
