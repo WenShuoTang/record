@@ -4,169 +4,629 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我们的回忆</title>
+    <title>我们的回忆 💌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #ffe7d1;
-            font-family: Arial, sans-serif;
+            background-color: #f7f0e8;
+            font-family: 'Zhi Mang Xing', Arial, sans-serif;
             margin: 0;
             padding: 20px;
             text-align: center;
+            color: #333;
         }
 
         h1 {
+            color: #a87676;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #a87676;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #8c5d5d;
+            transform: translateY(-2px);
+        }
+
+        .btn.secondary {
+            background-color: #d4a574;
+        }
+
+        .btn.secondary:hover {
+            background-color: #c4945f;
+        }
+
+        .btn.settings {
+            background-color: #6b9b8f;
+        }
+
+        .btn.settings:hover {
+            background-color: #5a8579;
+        }
+
+        .admin-status {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #e8d5c4;
+            border-radius: 8px;
             color: #333;
+            font-size: 0.9em;
+        }
+
+        .admin-status.authenticated {
+            background-color: #d4f1d4;
+            color: #2d5a2d;
         }
 
         .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
+            padding: 20px;
         }
 
         .group {
-            background-color: #ffe7d1;
-            /* 与背景一致 */
-            border: 2px solid #ffe7d1;
-            /* 边界框颜色 */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            flex: 0 1 calc(50% - 20px);
-            max-width: 300px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            flex: 0 1 280px;
+            max-width: 280px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.3s;
-            /* 添加过渡效果 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .group-title {
-            font-size: 20px;
-            margin: 10px 0;
+            font-size: 1.5em;
+            color: #a87676;
+            margin: 15px 0 5px;
+            font-weight: bold;
         }
 
         .cover {
             width: 100%;
-            height: auto;
-            border-radius: 8px;
+            aspect-ratio: 4/3;
+            border-radius: 10px;
             overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .cover a {
             display: block;
             width: 100%;
+            height: 100%;
         }
 
         .cover img {
             width: 100%;
-            height: auto;
-            object-fit: contain;
-            transition: transform 0.3s;
-            /* 添加过渡效果 */
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
         }
 
         .group:hover {
-            transform: scale(1.05);
-            /* 鼠标悬停时稍微放大 */
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         }
 
-        .cover:hover img {
-            transform: scale(1.05);
-            /* 鼠标悬停时稍微放大 */
+        @media (max-width: 600px) {
+            .group {
+                flex: 0 1 100%;
+                max-width: 100%;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 1.5em;
+            color: #a87676;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 2em;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            line-height: 0.5;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        /* 上传表单 */
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            text-align: left;
+            color: #333;
+        }
+
+        .form-group select,
+        .form-group input[type="password"] {
+            padding: 10px;
+            border: 1px solid #d4a574;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 15px;
+            background: #f0e6d2;
+            border: 2px dashed #a87676;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: #a87676;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .file-list {
+            margin-top: 10px;
+            text-align: left;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            background: #a87676;
+            color: white;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: #d4a574;
+            color: white;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: #333;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            z-index: 2000;
+        }
+
+        .toast.success {
+            background-color: #4caf50;
+        }
+
+        .toast.error {
+            background-color: #f44336;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1>我们的回忆</h1>
+    <h1>我们的回忆 💌</h1>
 
+    <div class="admin-status" id="adminStatus">
+        👤 普通访客 | <span id="adminToggle"
+            style="cursor: pointer; text-decoration: underline; color: #a87676;">点击登录为管理员</span>
+    </div>
+
+    <div class="toolbar">
+        <button class="btn" onclick="openUploadModal()">📤 上传照片/视频</button>
+        <button class="btn secondary" onclick="promptServerUrl()">🌐 设置服务器地址</button>
+        <button class="btn secondary" id="adminBtn" style="display: none;" onclick="logoutAdminMode()">🔐 退出管理员</button>
+    </div>
+
+    <!-- 上传模态框 -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeUploadModal()">&times;</span>
+            <div class="modal-header">上传照片或视频</div>
+            <form class="upload-form" onsubmit="handleUpload(event)">
+                <div class="form-group">
+                    <label for="groupSelect">选择分组：</label>
+                    <select id="groupSelect" required>
+                        <option value="">-- 请选择分组 --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>选择文件（支持多选）：</label>
+                    <div class="file-input-wrapper">
+                        <label class="file-input-label" for="fileInput">📁 点击选择或拖入文件</label>
+                        <input type="file" id="fileInput" accept="image/*,video/*" multiple required>
+                    </div>
+                    <div class="file-name" id="fileName"></div>
+                    <div class="file-list" id="fileList"></div>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-submit">上传</button>
+                    <button type="button" class="btn btn-cancel" onclick="closeUploadModal()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 管理员登录模态框 -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAdminModal()">&times;</span>
+            <div class="modal-header">管理员认证</div>
+            <div class="form-group">
+                <label for="adminPassword">请输入密码：</label>
+                <input type="password" id="adminPassword" placeholder="密码" required>
+            </div>
+            <div class="form-buttons">
+                <button type="button" class="btn btn-submit" onclick="verifyAdminPassword()">确认</button>
+                <button type="button" class="btn btn-cancel" onclick="closeAdminModal()">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分组卡片（固定封面） -->
     <div class="container">
         <div class="group">
-            <div class="cover">
-                <a href="group1.html" target="_blank" onclick="saveCurrentPage()"><img src="dys/dys1.jpg" alt="dys"></a>
-            </div>
+            <div class="cover"><a href="group1.html"><img src="dys/dys1.jpg" alt="dys"></a></div>
             <div class="group-title">dys</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group2.html" target="_blank" onclick="saveCurrentPage()"><img src="力元/力元26.jpg" alt="力元"></a>
-            </div>
+            <div class="cover"><a href="group2.html"><img src="liyuan/liyuan26.jpg" alt="力元"></a></div>
             <div class="group-title">力元</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group3.html" target="_blank" onclick="saveCurrentPage()"><img src="洁哥/洁哥6.jpg" alt="洁哥"></a>
+            <div class="cover"><a href="group3.html"><img src="jiege/jiege20.jpg" alt="洁哥"></a>
             </div>
             <div class="group-title">洁哥</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group4.html" target="_blank" onclick="saveCurrentPage()"><img src="嘎达/嘎达7.jpg" alt="嘎达"></a>
-            </div>
+            <div class="cover"><a href="group4.html"><img src="gada/gada7.jpg" alt="嘎达"></a></div>
             <div class="group-title">嘎达</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group5.html" target="_blank" onclick="saveCurrentPage()"><img src="精子/精子6.jpg" alt="精子"></a>
+            <div class="cover"><a href="group5.html"><img src="jingzi/jingzi7.jpg" alt="精子"></a>
             </div>
             <div class="group-title">精子</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group6.html" target="_blank" onclick="saveCurrentPage()"><img src="浩男/浩男1.jpg" alt="浩男"></a>
+            <div class="cover"><a href="group6.html"><img src="haonan/haonan1.jpg" alt="浩男"></a>
             </div>
             <div class="group-title">浩男</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group7.html" target="_blank" onclick="saveCurrentPage()"><img src="大旭孙/大旭孙2.jpg" alt="大旭孙"></a>
+            <div class="cover"><a href="group7.html"><img src="daxusun/daxusun2.jpg" alt="大旭孙"></a>
             </div>
             <div class="group-title">大旭孙</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group8.html" target="_blank" onclick="saveCurrentPage()"><img src="喝酒/喝酒7.jpg" alt="喝酒"></a>
+            <div class="cover"><a href="group8.html"><img src="hejiu/hejiu7.jpg" alt="喝酒"></a>
             </div>
             <div class="group-title">喝酒</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group9.html" target="_blank" onclick="saveCurrentPage()"><img src="玩耍/玩耍12.jpg" alt="玩"></a>
+            <div class="cover"><a href="group9.html"><img src="wanshua/wanshua10.jpg" alt="玩耍"></a>
             </div>
-            <div class="group-title">玩</div>
+            <div class="group-title">玩耍</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group10.html" target="_blank" onclick="saveCurrentPage()"><img src="硕子/硕子15.jpg" alt="硕子"></a>
-            </div>
+            <div class="cover"><a href="group10.html"><img src="shuozi/shuozi15.jpg" alt="硕子"></a></div>
             <div class="group-title">硕子</div>
         </div>
-
         <div class="group">
-            <div class="cover">
-                <a href="group11.html" target="_blank" onclick="saveCurrentPage()"><img src="合照/合照14.jpg" alt="合照"></a>
-            </div>
+            <div class="cover"><a href="group11.html"><img src="hezhao/hezhao13.jpg" alt="合照"></a></div>
             <div class="group-title">合照</div>
         </div>
     </div>
 
+    <script src="app.js"></script>
     <script>
-        function saveCurrentPage() {
-            const currentUrl = window.location.href;
-            localStorage.setItem('savedPage', currentUrl);
+        // ==================== 上传模态框相关函数 ====================
+
+        function openUploadModal() {
+            initGroupSelect();  // 每次打开都刷新分组选项
+            document.getElementById('uploadModal').classList.add('show');
+            // 清空上一次的选择
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileName').textContent = '';
+            document.getElementById('fileList').innerHTML = '';
         }
+
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.remove('show');
+        }
+
+        function initGroupSelect() {
+            const select = document.getElementById('groupSelect');
+            select.innerHTML = '<option value="">-- 请选择分组 --</option>';
+            const groups = getGroups();
+            groups.forEach(group => {
+                const option = document.createElement('option');
+                option.value = group.id;
+                option.textContent = group.displayName;
+                select.appendChild(option);
+            });
+        }
+
+        async function handleUpload(event) {
+            event.preventDefault();
+
+            const groupId = parseInt(document.getElementById('groupSelect').value);
+            const files = document.getElementById('fileInput').files;
+
+            if (!groupId) {
+                showToast('❌ 请选择一个分组', 'error');
+                return;
+            }
+            if (files.length === 0) {
+                showToast('❌ 请先选择文件', 'error');
+                return;
+            }
+
+            try {
+                showToast(`⏳ 正在上传 ${files.length} 个文件，请稍等...`, 'success');
+
+                const result = await uploadToServer(groupId, files);
+
+                closeUploadModal();
+                showToast(`✅ 上传成功！${result.uploadedCount} 个文件已保存到 ${result.folderName}`, 'success');
+            } catch (error) {
+                console.error('上传失败:', error);
+                showToast('❌ 上传失败：' + (error.message || '网络错误'), 'error');
+            }
+        }
+
+        // 文件选择后显示详细信息
+        function setupFileInputListener() {
+            const input = document.getElementById('fileInput');
+            if (!input) return;
+
+            input.addEventListener('change', () => {
+                const files = input.files;
+                const nameDiv = document.getElementById('fileName');
+                const listDiv = document.getElementById('fileList');
+
+                if (files.length === 0) {
+                    nameDiv.textContent = '';
+                    listDiv.innerHTML = '';
+                    return;
+                }
+
+                nameDiv.textContent = `已选择 ${files.length} 个文件`;
+
+                let html = '<ul style="margin:8px 0; padding-left:20px; text-align:left; color:#555; max-height:150px; overflow-y:auto;">';
+                let totalSize = 0;
+                Array.from(files).forEach(file => {
+                    const sizeKB = (file.size / 1024).toFixed(1);
+                    html += `<li>${file.name} <span style="color:#999">(${sizeKB} KB)</span></li>`;
+                    totalSize += file.size;
+                });
+                html += '</ul>';
+                html += `<div style="color:#999; font-size:0.9em;">总大小: ${(totalSize / 1024 / 1024).toFixed(2)} MB</div>`;
+                listDiv.innerHTML = html;
+            });
+        }
+
+        // 支持拖拽上传
+        function setupDragAndDrop() {
+            const modal = document.getElementById('uploadModal');
+            if (!modal) return;
+
+            modal.addEventListener('dragover', e => {
+                e.preventDefault();
+                modal.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            });
+
+            modal.addEventListener('dragleave', () => {
+                modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            });
+
+            modal.addEventListener('drop', e => {
+                e.preventDefault();
+                modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    document.getElementById('fileInput').files = files;
+                    document.getElementById('fileInput').dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+        // 点击模态框背景关闭
+        function setupModalCloseOnBackground() {
+            ['uploadModal', 'adminModal'].forEach(id => {
+                const modal = document.getElementById(id);
+                if (modal) {
+                    modal.addEventListener('click', e => {
+                        if (e.target.id === id) {
+                            if (id === 'uploadModal') closeUploadModal();
+                            if (id === 'adminModal') closeAdminModal();
+                        }
+                    });
+                }
+            });
+        }
+
+        // ==================== 管理员相关 ====================
+        function updateAdminUI() {
+            const status = document.getElementById('adminStatus');
+            const toggle = document.getElementById('adminToggle');
+            const logoutBtn = document.getElementById('adminBtn');
+
+            if (isAdmin) {
+                status.innerHTML = '🔐 管理员模式 | <span id="adminToggle" style="cursor:pointer; text-decoration:underline; color:#2d5a2d;">点击退出</span>';
+                status.className = 'admin-status authenticated';
+                document.getElementById('adminToggle').onclick = logoutAdminMode;
+                if (logoutBtn) logoutBtn.style.display = 'inline-block';
+            } else {
+                status.innerHTML = '👤 普通访客 | <span id="adminToggle" style="cursor:pointer; text-decoration:underline; color:#a87676;">点击登录为管理员</span>';
+                status.className = 'admin-status';
+                document.getElementById('adminToggle').onclick = openAdminModal;
+                if (logoutBtn) logoutBtn.style.display = 'none';
+            }
+        }
+
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.add('show');
+            document.getElementById('adminPassword').focus();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('show');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function verifyAdminPassword() {
+            const pwd = document.getElementById('adminPassword').value;
+            if (verifyAdmin(pwd)) {
+                closeAdminModal();
+                updateAdminUI();
+                showToast('✅ 管理员登录成功', 'success');
+            } else {
+                showToast('❌ 密码错误', 'error');
+            }
+        }
+
+        function logoutAdminMode() {
+            logoutAdmin();
+            updateAdminUI();
+            showToast('👋 已退出管理员模式', 'success');
+        }
+
+        // ==================== Toast 提示 ====================
+        function showToast(msg, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ==================== 初始化 ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            initGroupSelect();
+            updateAdminUI();
+            setupFileInputListener();
+            setupDragAndDrop();
+            setupModalCloseOnBackground();
+
+            // 管理员密码框回车提交
+            const pwdInput = document.getElementById('adminPassword');
+            if (pwdInput) {
+                pwdInput.addEventListener('keypress', e => {
+                    if (e.key === 'Enter') verifyAdminPassword();
+                });
+            }
+        });
     </script>
 
 </body>
